@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S7S Tech | المحول الدقيق</title>
+    <title>S7S Tech | محول التاريخ الاحترافي</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
+    <!-- مكتبات moment المحدثة لضبط التاريخ الهجري -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,40 +20,28 @@
             overflow: hidden;
         }
 
-        .bg-animate {
-            position: absolute; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
-            z-index: -1;
-        }
-
         .container {
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             border: 2px solid var(--neon);
             padding: 30px; border-radius: 30px;
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.3);
             width: 90%; max-width: 400px; text-align: center;
+            position: relative; z-index: 10;
         }
 
         h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 15px var(--neon); }
 
-        .mode-selector { margin-bottom: 20px; }
-        
-        /* تقسيم الخانات */
-        .date-grid {
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;
-        }
-
-        .input-unit {
+        .input-box {
             background: #1e293b; border: 1px solid #334155;
-            border-radius: 12px; padding: 10px;
+            border-radius: 15px; padding: 12px; margin-bottom: 15px;
         }
 
-        .input-unit label { display: block; font-size: 0.7rem; color: var(--neon); margin-bottom: 5px; }
+        label { display: block; text-align: right; font-size: 0.85rem; color: var(--neon); margin-bottom: 5px; }
 
         input, select {
             width: 100%; background: transparent; border: none;
             color: white; font-family: 'Cairo'; text-align: center;
-            font-size: 1.1rem; outline: none;
+            font-size: 1.1rem; outline: none; box-sizing: border-box;
         }
 
         button {
@@ -62,52 +51,43 @@
             cursor: pointer; transition: 0.3s;
         }
 
+        button:hover { transform: translateY(-3px); box-shadow: 0 5px 20px var(--neon); }
+
         #resultBox {
             margin-top: 25px; padding: 20px; border-radius: 15px;
-            background: rgba(0, 242, 254, 0.1);
-            border: 2px dashed var(--neon); display: none;
+            background: rgba(0, 242, 254, 0.1); border: 2px solid var(--neon);
+            display: none;
         }
 
-        .res-text { font-size: 1.5rem; font-weight: 900; color: white; margin-top: 5px; }
+        .res-val { font-size: 1.6rem; font-weight: 900; color: white; }
 
-        .signature { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
-        .sig-tec { color: var(--neon); font-size: 1.2rem; font-weight: bold; letter-spacing: 2px; }
+        .signature { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .sig-tec { color: var(--neon); font-size: 1.3rem; font-weight: bold; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-<div class="bg-animate"></div>
-
 <div class="container">
     <h1>محول التاريخ</h1>
 
-    <div class="mode-selector">
-        <select id="convertMode">
-            <option value="GtoH">ميلادي ➔ هجري</option>
-            <option value="HtoG">هجري ➔ ميلادي</option>
+    <div class="input-box">
+        <label>إعدادات التحويل</label>
+        <select id="mode">
+            <option value="GtoH">من ميلادي ➔ إلى هجري</option>
+            <option value="HtoG">من هجري ➔ إلى ميلادي</option>
         </select>
     </div>
 
-    <div class="date-grid">
-        <div class="input-unit">
-            <label>اليوم</label>
-            <input type="number" id="day" placeholder="01" min="1" max="31">
-        </div>
-        <div class="input-unit">
-            <label>الشهر</label>
-            <input type="number" id="month" placeholder="01" min="1" max="12">
-        </div>
-        <div class="input-unit">
-            <label>السنة</label>
-            <input type="number" id="year" placeholder="2026">
-        </div>
+    <div class="input-box">
+        <label>التاريخ (يوم-شهر-سنة)</label>
+        <input type="text" id="dateText" placeholder="مثال: 15-05-1447" dir="ltr">
     </div>
 
-    <button onclick="startConversion()">تحويل الآن</button>
+    <button onclick="convertNow()">تحويل الآن</button>
 
     <div id="resultBox">
-        <div style="color: var(--neon); font-size: 0.9rem;">التاريخ المحول:</div>
-        <div class="res-text" id="finalDate"></div>
+        <div style="color: var(--neon); margin-bottom: 5px;">النتيجة:</div>
+        <div class="res-val" id="resultText"></div>
     </div>
 
     <div class="signature">
@@ -117,37 +97,37 @@
 </div>
 
 <script>
-    function startConversion() {
-        const d = document.getElementById('day').value;
-        const m = document.getElementById('month').value;
-        const y = document.getElementById('year').value;
-        const mode = document.getElementById('convertMode').value;
-        const resultBox = document.getElementById('resultBox');
-        const finalDate = document.getElementById('finalDate');
+    function convertNow() {
+        const input = document.getElementById('dateText').value;
+        const mode = document.getElementById('mode').value;
+        const resBox = document.getElementById('resultBox');
+        const resText = document.getElementById('resultText');
 
-        if (!d || !m || !y) {
-            alert("فضلاً أكمل جميع الخانات (اليوم، الشهر، السنة)");
+        if (!input.includes('-')) {
+            alert("يرجى كتابة التاريخ بهذا الشكل: 18-11-1447");
             return;
         }
 
         try {
-            let result = "";
+            const p = input.split('-');
+            // ترتيب التاريخ البرمجي: السنة-الشهر-اليوم
+            const standardDate = p[2] + "-" + p[1] + "-" + p[0]; 
+
+            let output = "";
             if (mode === "GtoH") {
-                // من ميلادي إلى هجري
-                let mDate = moment(`${y}-${m}-${d}`, 'YYYY-M-D');
-                if (!mDate.isValid()) throw new Error();
-                result = mDate.format('iDD / iMM / iYYYY') + " هـ";
+                // ميلادي إلى هجري
+                output = moment(standardDate, 'YYYY-M-D').format('iDD / iMM / iYYYY') + " هـ";
             } else {
-                // من هجري إلى ميلادي
-                let hDate = moment(`${y}-${m}-${d}`, 'iYYYY-iM-iD');
-                if (!hDate.isValid()) throw new Error();
-                result = hDate.format('DD / MM / YYYY') + " م";
+                // هجري إلى ميلادي (تعديل المنطق لتقويم أم القرى)
+                output = moment(standardDate, 'iYYYY-iM-iD').format('DD / MM / YYYY') + " م";
             }
 
-            finalDate.innerText = result;
-            resultBox.style.display = "block";
+            if (output.includes("Invalid")) throw new Error();
+            
+            resText.innerText = output;
+            resBox.style.display = "block";
         } catch (e) {
-            alert("التاريخ غير صحيح، تأكد من الأرقام المدخلة");
+            alert("تأكد من صحة التاريخ المدخل (يوم-شهر-سنة)");
         }
     }
 </script>
