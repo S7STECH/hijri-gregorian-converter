@@ -3,166 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S7S Tech | محول التاريخ</title>
+    <title>S7S Tech | محول التاريخ الدقيق</title>
     
-    <!-- استدعاء خط Cairo وجوجل فونتس لخطوط مميزة -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        :root { --neon: #00f2fe; --dark: #020617; }
         body {
-            margin: 0;
-            background: #020617;
-            color: #f8fafc;
-            font-family: 'Cairo', sans-serif; /* استخدام الخط الجديد */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 0; background: var(--dark); color: white;
+            font-family: 'Cairo', sans-serif; display: flex;
+            justify-content: center; align-items: center; min-height: 100vh;
             overflow: hidden;
-            position: relative;
         }
 
-        /* تأثير الخلفية التقنية المتحركة */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, transparent, #00f2fe22),
-                        repeating-linear-gradient(0deg, transparent, transparent 1px, #00f2fe11 1px, #00f2fe11 2px);
-            background-size: 100% 3px;
-            animation: scan 10s linear infinite;
-            z-index: 0;
+        /* خلفية تقنية متطورة */
+        .bg-lines {
+            position: absolute; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,242,254,0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0,242,254,0.05) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1;
         }
-        @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
 
         .container {
-            position: relative;
-            z-index: 10;
-            background: rgba(15, 23, 42, 0.9);
-            border: 2px solid #00f2fe;
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 0 50px rgba(0, 242, 254, 0.2);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid var(--neon);
+            padding: 35px; border-radius: 30px;
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.2);
+            width: 90%; max-width: 420px; text-align: center;
         }
 
-        /* تنسيق العنوان المطلوب (عريض ومميز) */
         h1 { 
-            color: #ffffff; 
-            font-size: 2.2rem; 
-            font-weight: 900; /* خط عريض جداً */
-            margin-bottom: 25px; 
-            text-shadow: 0 0 15px #00f2fe, 0 0 30px #00f2fe; /* توهج للعنوان */
-            letter-spacing: -1px;
+            font-size: 2.5rem; font-weight: 900; margin-bottom: 30px;
+            text-shadow: 0 0 20px var(--neon); color: #fff;
         }
 
-        select, input, button {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            background: #1e293b;
-            color: white;
-            font-size: 1rem;
-            font-family: 'Cairo', sans-serif;
-            outline: none;
+        .input-box {
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 15px; padding: 10px; margin-bottom: 15px;
+        }
+
+        label { display: block; text-align: right; font-size: 0.8rem; color: var(--neon); margin-right: 10px; }
+
+        select, input {
+            width: 100%; background: transparent; border: none;
+            color: white; padding: 10px; font-family: 'Cairo';
+            font-size: 1.1rem; outline: none; box-sizing: border-box;
         }
 
         button {
-            background: linear-gradient(45deg, #00f2fe, #4facfe);
-            color: #020617;
-            font-weight: 900;
-            cursor: pointer;
-            border: none;
-            transition: 0.3s;
-            font-size: 1.1rem;
+            width: 100%; padding: 15px; border-radius: 15px; border: none;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            color: #020617; font-weight: 900; font-size: 1.2rem;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
         }
 
-        button:hover { 
-            transform: scale(1.03); 
-            box-shadow: 0 0 20px #00f2fe; 
+        button:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--neon); }
+
+        #resultArea {
+            margin-top: 25px; padding: 20px; border-radius: 15px;
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px solid var(--neon); display: none;
+            animation: fadeIn 0.5s ease;
         }
 
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 242, 254, 0.1);
-            border-radius: 12px;
-            border: 1px solid #00f2fe;
-            display: none;
-            color: #00f2fe;
-            font-size: 1.4rem;
-            font-weight: 900;
-        }
+        .res-val { font-size: 1.6rem; font-weight: 900; color: var(--neon); }
 
-        .signature {
-            margin-top: 35px;
-            border-top: 1px solid rgba(148, 163, 184, 0.3);
-            padding-top: 20px;
-        }
+        .signature { margin-top: 40px; border-top: 1px solid #334155; padding-top: 20px; }
+        .sig-name { font-weight: 900; font-size: 1.2rem; display: block; }
+        .sig-tec { color: var(--neon); letter-spacing: 3px; font-size: 1.1rem; }
 
-        .name-label {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #ffffff;
-            display: block;
-        }
-
-        .handle { 
-            color: #00f2fe; 
-            display: block; 
-            font-size: 1.3rem; 
-            margin-top: 5px; 
-            font-weight: 400;
-            letter-spacing: 2px;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>محول التاريخ</h1> <!-- تم تغيير العنوان وجعله عريضاً -->
-    
-    <select id="mode">
-        <option value="GtoH">ميلادي ➔ هجري</option>
-        <option value="HtoG">هجري ➔ ميلادي</option>
-    </select>
+<div class="bg-lines"></div>
 
-    <input type="text" id="dateInput" placeholder="2026-05-06 أو 1447-11-18">
-    
-    <button onclick="convert()">
-        <i class="fas fa-sync-alt"></i> تحويل الآن
+<div class="container">
+    <h1>محول التاريخ</h1>
+
+    <div class="input-box">
+        <label>نوع التحويل</label>
+        <select id="type">
+            <option value="HtoG">من هجري ➔ إلى ميلادي</option>
+            <option value="GtoH">من ميلادي ➔ إلى هجري</option>
+        </select>
+    </div>
+
+    <div class="input-box">
+        <label>أدخل التاريخ (يوم-شهر-سنة)</label>
+        <input type="text" id="dateInput" placeholder="مثال: 01-01-1445" style="text-align: center;">
+    </div>
+
+    <button onclick="execute()">
+        <i class="fas fa-bolt"></i> تحويل الآن
     </button>
 
-    <div id="result" class="result"></div>
+    <div id="resultArea">
+        <div style="font-size: 0.9rem; margin-bottom: 5px;">النتيجة التقنية:</div>
+        <div class="res-val" id="finalRes"></div>
+    </div>
 
     <div class="signature">
-        <span class="name-label">إعداد: حسين بن سعيد</span>
-        <span class="handle">s7s_tec</span>
+        <span class="sig-name">إعداد: حسين بن سعيد</span>
+        <span class="sig-tec">s7s_tec</span>
     </div>
 </div>
 
 <script>
-    function convert() {
-        const val = document.getElementById('dateInput').value;
-        const mode = document.getElementById('mode').value;
-        const res = document.getElementById('result');
-        if(!val) return alert("أدخل التاريخ أولاً يا حسين!");
-        
+    function execute() {
+        const input = document.getElementById('dateInput').value;
+        const type = document.getElementById('type').value;
+        const resBox = document.getElementById('resultArea');
+        const resText = document.getElementById('finalRes');
+
+        if (!input || !input.includes('-')) {
+            alert("يرجى إدخال التاريخ بتنسيق صحيح (يوم-شهر-سنة) مثال: 25-12-2023");
+            return;
+        }
+
         try {
-            let out = (mode === "GtoH") 
-                ? moment(val, 'YYYY-M-D').format('iYYYY/iM/iD') + " هـ"
-                : moment(val, 'iYYYY-iM-iD').format('YYYY/M/D') + " م";
-            res.innerHTML = out;
-            res.style.display = "block";
-        } catch(e) {
-            alert("تنسيق التاريخ غير صحيح! استخدم السنة-الشهر-اليوم");
+            // تقسيم التاريخ المدخل للتأكد من القراءة الصحيحة
+            const parts = input.split('-');
+            const formattedInput = `${parts[2]}-${parts[1]}-${parts[0]}`; // تحويل لـ YYYY-MM-DD
+
+            let result = "";
+            if (type === "GtoH") {
+                // من ميلادي لهجري
+                result = moment(formattedInput, 'YYYY-MM-DD').format('iDD / iMM / iYYYY') + " هـ";
+            } else {
+                // من هجري لميلادي
+                result = moment(formattedInput, 'iYYYY-iMM-iDD').format('DD / MM / YYYY') + " م";
+            }
+
+            if (result.includes("Invalid")) throw new Error();
+
+            resText.innerText = result;
+            resBox.style.display = "block";
+        } catch (e) {
+            alert("خطأ! تأكد من أن التاريخ المدخل منطقي (مثلاً لا يوجد شهر 13)");
         }
     }
 </script>
