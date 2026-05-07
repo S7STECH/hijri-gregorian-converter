@@ -20,7 +20,7 @@
 
 <style>
 
-/* نفس التصميم تماماً */
+/* نفس التصميم */
 *{
     margin:0;
     padding:0;
@@ -29,33 +29,22 @@
 }
 
 body{
-
-    background:
-    linear-gradient(135deg,#0f172a,#1e293b,#334155);
-
+    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
     min-height:100vh;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     padding:20px;
-
     color:white;
 }
 
 .container{
-
     width:100%;
     max-width:950px;
-
     background:rgba(255,255,255,0.08);
     backdrop-filter:blur(16px);
-
     border-radius:28px;
-
     padding:35px;
-
     box-shadow:0 15px 40px rgba(0,0,0,0.45);
 }
 
@@ -123,6 +112,7 @@ button{
 
 .btn1{background:#22c55e;color:white;}
 .btn2{background:#3b82f6;color:white;}
+.btn3{background:#f59e0b;color:white;}
 
 button:hover{
     transform:translateY(-3px);
@@ -155,7 +145,6 @@ button:hover{
     opacity:0.85;
 }
 
-/* الجوال */
 @media(max-width:768px){
     .container{padding:22px;}
     .title{font-size:28px;}
@@ -180,30 +169,22 @@ button:hover{
 
     <div class="row">
 
-        <!-- الميلادي -->
         <div class="box">
-
             <label>التاريخ الميلادي</label>
-
             <div class="date-inputs">
                 <input id="gDay" placeholder="اليوم">
                 <input id="gMonth" placeholder="الشهر">
                 <input id="gYear" placeholder="السنة">
             </div>
-
         </div>
 
-        <!-- الهجري -->
         <div class="box">
-
             <label>التاريخ الهجري</label>
-
             <div class="date-inputs">
                 <input id="hDay" placeholder="اليوم">
                 <input id="hMonth" placeholder="الشهر">
                 <input id="hYear" placeholder="السنة">
             </div>
-
         </div>
 
     </div>
@@ -212,6 +193,7 @@ button:hover{
 
         <button class="btn1" onclick="convertToHijri()">تحويل إلى هجري</button>
         <button class="btn2" onclick="convertToGregorian()">تحويل إلى ميلادي</button>
+        <button class="btn3" onclick="copyResult()">نسخ النتيجة</button>
 
     </div>
 
@@ -234,115 +216,108 @@ button:hover{
 
 <script>
 
-/* =========================
-   🔥 أم القرى API (محسن)
-   ========================= */
+/* تحويل أم القرى (API) */
 async function umAlQura(type,y,m,d){
 
     try{
 
-        let url;
-
-        if(type==="gToH"){
-            url = `https://api.aladhan.com/v1/gToH?date=${d}-${m}-${y}`;
-        }else{
-            url = `https://api.aladhan.com/v1/hToG?date=${d}-${m}-${y}`;
-        }
+        let url = (type==="gToH")
+        ? `https://api.aladhan.com/v1/gToH?date=${d}-${m}-${y}`
+        : `https://api.aladhan.com/v1/hToG?date=${d}-${m}-${y}`;
 
         let res = await fetch(url);
         let data = await res.json();
 
-        if(data && data.data){
-            return data.data;
-        }
+        return data.data || null;
 
     }catch(e){
         return null;
     }
-
-    return null;
 }
 
-/* =========================
-   ميلادي → هجري (أم القرى)
-   ========================= */
+/* ميلادي → هجري */
 async function convertToHijri(){
 
-    let d=document.getElementById("gDay").value;
-    let m=document.getElementById("gMonth").value;
-    let y=document.getElementById("gYear").value;
+    let d=gDay.value, m=gMonth.value, y=gYear.value;
 
-    if(!d||!m||!y){
-        alert("أدخل التاريخ الميلادي كاملاً");
-        return;
-    }
+    if(!d||!m||!y){alert("أدخل التاريخ كاملاً");return;}
 
     let api = await umAlQura("gToH",y,m,d);
 
     let hd,hm,hy;
 
     if(api){
-
-        hd = api.hijri.day;
-        hm = api.hijri.month.number;
-        hy = api.hijri.year;
-
+        hd=api.hijri.day;
+        hm=api.hijri.month.number;
+        hy=api.hijri.year;
     }else{
-
         let g=moment(`${y}-${m}-${d}`,"YYYY-MM-DD");
-
         hd=g.format("iDD");
         hm=g.format("iMM");
         hy=g.format("iYYYY");
     }
 
-    document.getElementById("hDay").value=hd;
-    document.getElementById("hMonth").value=hm;
-    document.getElementById("hYear").value=hy;
+    hDay.value=hd;
+    hMonth.value=hm;
+    hYear.value=hy;
 
-    document.getElementById("resultText").innerHTML=
-    `الميلادي: ${d}-${m}-${y}<br><br>الهجري (أم القرى): ${hd}-${hm}-${hy}`;
+    resultText.innerHTML =
+    `الميلادي: ${d}-${m}-${y}<br><br>الهجري: ${hd}-${hm}-${hy}`;
 }
 
-/* =========================
-   هجري → ميلادي (أم القرى)
-   ========================= */
+/* هجري → ميلادي */
 async function convertToGregorian(){
 
-    let d=document.getElementById("hDay").value;
-    let m=document.getElementById("hMonth").value;
-    let y=document.getElementById("hYear").value;
+    let d=hDay.value, m=hMonth.value, y=hYear.value;
 
-    if(!d||!m||!y){
-        alert("أدخل التاريخ الهجري كاملاً");
-        return;
-    }
+    if(!d||!m||!y){alert("أدخل التاريخ كاملاً");return;}
 
     let api = await umAlQura("hToG",y,m,d);
 
     let gd,gm,gy;
 
     if(api){
-
-        gd = api.gregorian.day;
-        gm = api.gregorian.month.number;
-        gy = api.gregorian.year;
-
+        gd=api.gregorian.day;
+        gm=api.gregorian.month.number;
+        gy=api.gregorian.year;
     }else{
-
         let h=moment(`${y}-${m}-${d}`,"iYYYY-iMM-iDD");
-
         gd=h.format("DD");
         gm=h.format("MM");
         gy=h.format("YYYY");
     }
 
-    document.getElementById("gDay").value=gd;
-    document.getElementById("gMonth").value=gm;
-    document.getElementById("gYear").value=gy;
+    gDay.value=gd;
+    gMonth.value=gm;
+    gYear.value=gy;
 
-    document.getElementById("resultText").innerHTML=
-    `الهجري: ${d}-${m}-${y}<br><br>الميلادي (أم القرى): ${gd}-${gm}-${gy}`;
+    resultText.innerHTML =
+    `الهجري: ${d}-${m}-${y}<br><br>الميلادي: ${gd}-${gm}-${gy}`;
+}
+
+/* 📋 نسخ النتيجة */
+function copyResult(){
+
+    let text = document.getElementById("resultText").innerText;
+
+    if(!text || text.includes("اختر")){
+        alert("لا يوجد نتيجة للنسخ");
+        return;
+    }
+
+    navigator.clipboard.writeText(text)
+    .then(()=>alert("تم النسخ ✔️"))
+    .catch(()=>{
+
+        let t=document.createElement("textarea");
+        t.value=text;
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand("copy");
+        document.body.removeChild(t);
+
+        alert("تم النسخ ✔️");
+    });
 }
 
 </script>
