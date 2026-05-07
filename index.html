@@ -20,7 +20,6 @@
 
 <style>
 
-/* الأساسيات */
 *{
     margin:0;
     padding:0;
@@ -31,18 +30,12 @@
 body{
 
     background:
-    linear-gradient(
-    135deg,
-    #0f172a,
-    #1e293b,
-    #334155);
+    linear-gradient(135deg,#0f172a,#1e293b,#334155);
 
     min-height:100vh;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
     padding:20px;
@@ -53,145 +46,97 @@ body{
 .container{
 
     width:100%;
-
     max-width:950px;
 
-    background:
-    rgba(255,255,255,0.08);
-
+    background:rgba(255,255,255,0.08);
     backdrop-filter:blur(16px);
 
     border-radius:28px;
 
     padding:35px;
 
-    box-shadow:
-    0 15px 40px rgba(0,0,0,0.45);
+    box-shadow:0 15px 40px rgba(0,0,0,0.45);
 }
 
 .title{
-
     text-align:center;
-
     font-size:34px;
-
     font-weight:700;
-
     margin-bottom:35px;
 }
 
 .row{
-
     display:flex;
-
     gap:25px;
-
     flex-wrap:wrap;
 }
 
 .box{
-
     flex:1;
-
     min-width:300px;
 }
 
 label{
-
     display:block;
-
     margin-bottom:14px;
-
     font-size:20px;
-
     font-weight:700;
 }
 
 .date-inputs{
-
     display:flex;
-
     gap:10px;
 }
 
 .date-inputs input{
-
     flex:1;
-
     width:100%;
-
     padding:16px;
-
     border:none;
-
     border-radius:16px;
-
     outline:none;
-
     text-align:center;
-
     font-size:18px;
-
     font-weight:600;
-
     background:white;
-
     color:#111;
 }
 
-.date-inputs input::placeholder{
-
-    color:#777;
-}
-
 .buttons{
-
     margin-top:30px;
-
     display:flex;
-
     gap:15px;
-
     flex-wrap:wrap;
 }
 
 button{
-
     flex:1;
-
     padding:16px;
-
     border:none;
-
     border-radius:16px;
-
     font-size:19px;
-
     font-weight:700;
-
     cursor:pointer;
-
     transition:0.3s;
 }
 
 .btn1{
-
     background:#22c55e;
-
     color:white;
 }
 
 .btn2{
-
     background:#3b82f6;
+    color:white;
+}
 
+.btn-copy{
+    background:#f59e0b;
     color:white;
 }
 
 button:hover{
-
     transform:translateY(-3px);
-
     opacity:0.92;
 }
 
@@ -199,8 +144,7 @@ button:hover{
 
     margin-top:30px;
 
-    background:
-    rgba(255,255,255,0.08);
+    background:rgba(255,255,255,0.08);
 
     border-radius:22px;
 
@@ -210,51 +154,39 @@ button:hover{
 }
 
 .result h2{
-
     margin-bottom:18px;
-
     font-size:26px;
 }
 
 .result p{
-
     font-size:24px;
-
     line-height:2;
-
     font-weight:700;
 }
 
-/* 🔥 التوقيع الاحترافي */
+/* التوقيع الاحترافي */
 .footer{
-
     margin-top:30px;
     text-align:center;
 }
 
 .signature{
-
     display:inline-block;
     padding:12px 22px;
     border-radius:16px;
-
     background:rgba(255,255,255,0.06);
     backdrop-filter:blur(10px);
-
     border:1px solid rgba(255,255,255,0.15);
-
     animation:fadeIn 1.2s ease;
 }
 
 .signature .name{
-
     font-size:15px;
     line-height:1.8;
     opacity:0.9;
 }
 
 .signature .name span{
-
     display:block;
     font-size:18px;
     font-weight:700;
@@ -263,7 +195,6 @@ button:hover{
 }
 
 .signature .tag{
-
     margin-top:6px;
     font-size:13px;
     font-weight:700;
@@ -272,48 +203,19 @@ button:hover{
 }
 
 @keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
 }
 
 /* الجوال */
 @media(max-width:768px){
-
-    .container{
-        padding:22px;
-    }
-
-    .title{
-        font-size:28px;
-    }
-
-    .row{
-        flex-direction:column;
-    }
-
-    .box{
-        min-width:100%;
-    }
-
-    .date-inputs input{
-        padding:14px;
-        font-size:16px;
-    }
-
-    button{
-        font-size:17px;
-    }
-
-    .result p{
-        font-size:19px;
-    }
-
+    .container{padding:22px;}
+    .title{font-size:28px;}
+    .row{flex-direction:column;}
+    .box{min-width:100%;}
+    .date-inputs input{padding:14px;font-size:16px;}
+    button{font-size:17px;}
+    .result p{font-size:19px;}
 }
 
 </style>
@@ -336,11 +238,9 @@ button:hover{
             <label>التاريخ الميلادي</label>
 
             <div class="date-inputs">
-
-                <input type="number" id="gDay" placeholder="اليوم" min="1" max="31">
-                <input type="number" id="gMonth" placeholder="الشهر" min="1" max="12">
-                <input type="number" id="gYear" placeholder="السنة">
-
+                <input id="gDay" placeholder="اليوم">
+                <input id="gMonth" placeholder="الشهر">
+                <input id="gYear" placeholder="السنة">
             </div>
 
         </div>
@@ -351,11 +251,9 @@ button:hover{
             <label>التاريخ الهجري</label>
 
             <div class="date-inputs">
-
-                <input type="number" id="hDay" placeholder="اليوم" min="1" max="30">
-                <input type="number" id="hMonth" placeholder="الشهر" min="1" max="12">
-                <input type="number" id="hYear" placeholder="السنة">
-
+                <input id="hDay" placeholder="اليوم">
+                <input id="hMonth" placeholder="الشهر">
+                <input id="hYear" placeholder="السنة">
             </div>
 
         </div>
@@ -364,13 +262,9 @@ button:hover{
 
     <div class="buttons">
 
-        <button class="btn1" onclick="convertToHijri()">
-            تحويل إلى هجري
-        </button>
-
-        <button class="btn2" onclick="convertToGregorian()">
-            تحويل إلى ميلادي
-        </button>
+        <button class="btn1" onclick="convertToHijri()">تحويل إلى هجري</button>
+        <button class="btn2" onclick="convertToGregorian()">تحويل إلى ميلادي</button>
+        <button class="btn-copy" onclick="copyResult()">نسخ النتيجة</button>
 
     </div>
 
@@ -384,7 +278,6 @@ button:hover{
 
     </div>
 
-    <!-- التوقيع الاحترافي -->
     <div class="footer">
 
         <div class="signature">
@@ -409,72 +302,80 @@ button:hover{
 
 <script>
 
-/* تنسيق التاريخ */
-function formatDate(day,month,year){
-    day = String(day).padStart(2,'0');
-    month = String(month).padStart(2,'0');
-    return `${day}-${month}-${year}`;
+/* تنسيق */
+function formatDate(d,m,y){
+    return `${String(d).padStart(2,'0')}-${String(m).padStart(2,'0')}-${y}`;
 }
 
 /* ميلادي → هجري */
 function convertToHijri(){
 
-    let day = document.getElementById("gDay").value;
-    let month = document.getElementById("gMonth").value;
-    let year = document.getElementById("gYear").value;
+    let d=document.getElementById("gDay").value;
+    let m=document.getElementById("gMonth").value;
+    let y=document.getElementById("gYear").value;
 
-    if(!day || !month || !year){
-        alert("أدخل التاريخ الميلادي كاملاً");
-        return;
-    }
+    if(!d||!m||!y){alert("أدخل التاريخ الميلادي كاملاً");return;}
 
-    let gDate = moment(`${year}-${month}-${day}`,"YYYY-MM-DD");
+    let g=moment(`${y}-${m}-${d}`,"YYYY-MM-DD");
 
-    let hDay = gDate.format("iDD");
-    let hMonth = gDate.format("iMM");
-    let hYear = gDate.format("iYYYY");
+    let hd=g.format("iDD");
+    let hm=g.format("iMM");
+    let hy=g.format("iYYYY");
 
-    document.getElementById("hDay").value = hDay;
-    document.getElementById("hMonth").value = hMonth;
-    document.getElementById("hYear").value = hYear;
+    document.getElementById("hDay").value=hd;
+    document.getElementById("hMonth").value=hm;
+    document.getElementById("hYear").value=hy;
 
-    document.getElementById("resultText").innerHTML =
-    `
-    الميلادي: ${formatDate(day,month,year)}
-    <br><br>
-    الهجري: ${formatDate(hDay,hMonth,hYear)}
-    `;
+    document.getElementById("resultText").innerHTML=
+    `الميلادي: ${formatDate(d,m,y)}<br><br>الهجري: ${formatDate(hd,hm,hy)}`;
 }
 
 /* هجري → ميلادي */
 function convertToGregorian(){
 
-    let day = document.getElementById("hDay").value;
-    let month = document.getElementById("hMonth").value;
-    let year = document.getElementById("hYear").value;
+    let d=document.getElementById("hDay").value;
+    let m=document.getElementById("hMonth").value;
+    let y=document.getElementById("hYear").value;
 
-    if(!day || !month || !year){
-        alert("أدخل التاريخ الهجري كاملاً");
+    if(!d||!m||!y){alert("أدخل التاريخ الهجري كاملاً");return;}
+
+    let h=moment(`${y}-${m}-${d}`,"iYYYY-iMM-iDD");
+
+    let gd=h.format("DD");
+    let gm=h.format("MM");
+    let gy=h.format("YYYY");
+
+    document.getElementById("gDay").value=gd;
+    document.getElementById("gMonth").value=gm;
+    document.getElementById("gYear").value=gy;
+
+    document.getElementById("resultText").innerHTML=
+    `الهجري: ${formatDate(d,m,y)}<br><br>الميلادي: ${formatDate(gd,gm,gy)}`;
+}
+
+/* نسخ النتيجة */
+function copyResult(){
+
+    let text=document.getElementById("resultText").innerText;
+
+    if(!text || text.includes("اختر التاريخ")){
+        alert("لا يوجد شيء لنسخه");
         return;
     }
 
-    let hDate = moment(`${year}-${month}-${day}`,"iYYYY-iMM-iDD");
+    navigator.clipboard.writeText(text).then(()=>{
+        alert("تم النسخ بنجاح ✔️");
+    }).catch(()=>{
 
-    let gDay = hDate.format("DD");
-    let gMonth = hDate.format("MM");
-    let gYear = hDate.format("YYYY");
+        let temp=document.createElement("textarea");
+        temp.value=text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
 
-    /* ✔️ إصلاح التعبئة */
-    document.getElementById("gDay").value = gDay;
-    document.getElementById("gMonth").value = gMonth;
-    document.getElementById("gYear").value = gYear;
-
-    document.getElementById("resultText").innerHTML =
-    `
-    الهجري: ${formatDate(day,month,year)}
-    <br><br>
-    الميلادي: ${formatDate(gDay,gMonth,gYear)}
-    `;
+        alert("تم النسخ ✔️");
+    });
 }
 
 </script>
