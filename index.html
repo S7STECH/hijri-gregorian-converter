@@ -34,10 +34,24 @@ h1 {
     margin-bottom: 20px;
 }
 
-input, select, button {
+.input-group {
+    display: flex;
+    gap: 5px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    text-align: center;
+}
+
+select, button {
     width: 100%;
     padding: 12px;
-    margin-bottom: 10px;
+    margin-top: 10px;
     border-radius: 10px;
     border: none;
     font-size: 16px;
@@ -88,27 +102,27 @@ button {
 <div class="container">
     <h1>محول التاريخ</h1>
 
-    <!-- توضيح الاتجاه -->
     <div class="direction" id="directionText">
         التحويل: هجري → ميلادي
     </div>
 
-    <!-- اختيار نوع التحويل -->
     <select id="mode" onchange="updateDirection()">
         <option value="HtoG">هجري إلى ميلادي</option>
         <option value="GtoH">ميلادي إلى هجري</option>
     </select>
 
-    <!-- إدخال ميلادي -->
-    <div id="gregorianInput" style="display:none;">
-        <input type="date" id="datePicker">
+    <!-- إدخال هجري -->
+    <div id="hijriInput" class="input-group">
+        <input type="number" id="hDay" placeholder="يوم">
+        <input type="number" id="hMonth" placeholder="شهر">
+        <input type="number" id="hYear" placeholder="سنة">
     </div>
 
-    <!-- إدخال هجري -->
-    <div id="hijriInput">
-        <input type="number" id="hDay" placeholder="اليوم">
-        <input type="number" id="hMonth" placeholder="الشهر">
-        <input type="number" id="hYear" placeholder="السنة">
+    <!-- إدخال ميلادي -->
+    <div id="gregorianInput" class="input-group" style="display:none;">
+        <input type="number" id="gDay" placeholder="يوم">
+        <input type="number" id="gMonth" placeholder="شهر">
+        <input type="number" id="gYear" placeholder="سنة">
     </div>
 
     <button onclick="convertNow()">تحويل</button>
@@ -118,7 +132,6 @@ button {
     </div>
 </div>
 
-<!-- التوقيع -->
 <div class="signature">
     إعداد: حسين بن سعيد
     <span class="username">@s7s_tec</span>
@@ -134,12 +147,12 @@ function updateDirection() {
 
     if (mode === "HtoG") {
         text.innerText = "التحويل: هجري → ميلادي";
+        hInput.style.display = "flex";
         gInput.style.display = "none";
-        hInput.style.display = "block";
     } else {
         text.innerText = "التحويل: ميلادي → هجري";
-        gInput.style.display = "block";
         hInput.style.display = "none";
+        gInput.style.display = "flex";
     }
 }
 
@@ -150,23 +163,22 @@ async function convertNow() {
 
     let day, month, year;
 
-    if (mode === "GtoH") {
-        const dateValue = document.getElementById('datePicker').value;
-
-        if (!dateValue) {
-            alert("اختر التاريخ");
-            return;
-        }
-
-        [year, month, day] = dateValue.split('-');
-
-    } else {
+    if (mode === "HtoG") {
         day = document.getElementById('hDay').value;
         month = document.getElementById('hMonth').value;
         year = document.getElementById('hYear').value;
 
         if (!day || !month || !year) {
             alert("أدخل التاريخ الهجري كامل");
+            return;
+        }
+    } else {
+        day = document.getElementById('gDay').value;
+        month = document.getElementById('gMonth').value;
+        year = document.getElementById('gYear').value;
+
+        if (!day || !month || !year) {
+            alert("أدخل التاريخ الميلادي كامل");
             return;
         }
     }
@@ -196,7 +208,7 @@ async function convertNow() {
 
         resText.innerText = output;
 
-    } catch (e) {
+    } catch {
         resText.innerText = "فشل التحويل، تحقق من البيانات أو الاتصال";
     }
 }
