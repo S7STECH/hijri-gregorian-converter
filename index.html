@@ -1,4 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>محول التاريخ الاحترافي</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f2027, #2c5364);
+}
+
+.container {
+    width: 90%;
+    max-width: 400px;
+    padding: 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    text-align: center;
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+h1 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 900;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    display: none;
+    font-size: 18px;
+    animation: fadeIn 0.5s ease;
+}
+
+.toggle {
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.toggle:hover {
+    color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>📅 محول التاريخ</h1>
+
+    <input type="text" id="dateText" placeholder="مثال: 1-9-1445">
+
+    <div class="toggle" onclick="toggleMode()">🔄 تبديل التحويل</div>
+
+    <select id="mode">
+        <option value="HtoG">هجري ➜ ميلادي</option>
+        <option value="GtoH">ميلادي ➜ هجري</option>
+    </select>
+
+    <button onclick="convertNow()">تحويل الآن 🚀</button>
+
+    <div class="result" id="resultBox">
+        <span id="resultText"></span>
+    </div>
+</div>
+
 <script>
+function toggleMode() {
+    const select = document.getElementById('mode');
+    select.value = select.value === "HtoG" ? "GtoH" : "HtoG";
+}
+
 async function convertNow() {
     const input = document.getElementById('dateText').value.trim();
     const mode = document.getElementById('mode').value;
@@ -6,22 +130,24 @@ async function convertNow() {
     const resText = document.getElementById('resultText');
 
     if (!input.includes('-')) {
-        alert("اكتب التاريخ: يوم-شهر-سنة");
+        alert("⚠️ اكتب التاريخ: يوم-شهر-سنة");
         return;
     }
 
-    const [day, month, year] = input.split('-');
+    let [day, month, year] = input.split('-').map(Number);
+
+    if (!day || !month || !year) {
+        alert("⚠️ تاريخ غير صحيح");
+        return;
+    }
+
+    let url = mode === "GtoH"
+        ? `https://api.aladhan.com/v1/gToH?date=${day}-${month}-${year}`
+        : `https://api.aladhan.com/v1/hToG?date=${day}-${month}-${year}`;
 
     try {
-        let url = "";
-
-        if (mode === "GtoH") {
-            // ميلادي ➜ هجري
-            url = `https://api.aladhan.com/v1/gToH?date=${day}-${month}-${year}`;
-        } else {
-            // هجري ➜ ميلادي
-            url = `https://api.aladhan.com/v1/hToG?date=${day}-${month}-${year}`;
-        }
+        resText.innerText = "⏳ جاري التحويل...";
+        resBox.style.display = "block";
 
         const res = await fetch(url);
         const data = await res.json();
@@ -32,17 +158,19 @@ async function convertNow() {
 
         if (mode === "GtoH") {
             const h = data.data.hijri;
-            output = `${h.day} / ${h.month.number} / ${h.year} هـ`;
+            output = `📿 ${h.day} ${h.month.ar} ${h.year} هـ`;
         } else {
             const g = data.data.gregorian;
-            output = `${g.day} / ${g.month.number} / ${g.year} م`;
+            output = `📅 ${g.day} ${g.month.en} ${g.year} م`;
         }
 
-        resText.innerText = output;
-        resBox.style.display = "block";
+        resText.innerText = "✅ " + output;
 
-    } catch (e) {
-        alert("❌ فشل الاتصال أو التاريخ غير صحيح");
+    } catch {
+        resText.innerText = "❌ فشل التحويل";
     }
 }
 </script>
+
+</body>
+</html>
