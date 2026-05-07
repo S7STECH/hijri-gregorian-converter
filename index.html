@@ -315,11 +315,15 @@ button:hover{
 
                 <input type="number"
                        id="gDay"
-                       placeholder="اليوم">
+                       placeholder="اليوم"
+                       min="1"
+                       max="31">
 
                 <input type="number"
                        id="gMonth"
-                       placeholder="الشهر">
+                       placeholder="الشهر"
+                       min="1"
+                       max="12">
 
                 <input type="number"
                        id="gYear"
@@ -341,11 +345,15 @@ button:hover{
 
                 <input type="number"
                        id="hDay"
-                       placeholder="اليوم">
+                       placeholder="اليوم"
+                       min="1"
+                       max="30">
 
                 <input type="number"
                        id="hMonth"
-                       placeholder="الشهر">
+                       placeholder="الشهر"
+                       min="1"
+                       max="12">
 
                 <input type="number"
                        id="hYear"
@@ -415,16 +423,18 @@ function formatDate(day,month,year){
     return `${day}-${month}-${year}`;
 }
 
+/* تحويل ميلادي إلى هجري */
+
 function convertToHijri(){
 
-    const day =
-    document.getElementById("gDay").value;
+    let day =
+    document.getElementById("gDay").value.trim();
 
-    const month =
-    document.getElementById("gMonth").value;
+    let month =
+    document.getElementById("gMonth").value.trim();
 
-    const year =
-    document.getElementById("gYear").value;
+    let year =
+    document.getElementById("gYear").value.trim();
 
     if(!day || !month || !year){
 
@@ -435,9 +445,21 @@ function convertToHijri(){
         return;
     }
 
+    // إضافة صفر تلقائي
+    day =
+    day.padStart(2,'0');
+
+    month =
+    month.padStart(2,'0');
+
+    // إنشاء التاريخ
+    const gregorianDate =
+    `${year}-${month}-${day}`;
+
+    // التحقق من صحة التاريخ
     const gDate =
     moment(
-    `${year}-${month}-${day}`,
+    gregorianDate,
     "YYYY-MM-DD",
     true
     );
@@ -451,6 +473,7 @@ function convertToHijri(){
         return;
     }
 
+    // التحويل للهجري
     const hDay =
     gDate.format("iDD");
 
@@ -460,6 +483,7 @@ function convertToHijri(){
     const hYear =
     gDate.format("iYYYY");
 
+    // تعبئة الحقول
     document.getElementById("hDay").value =
     hDay;
 
@@ -469,6 +493,7 @@ function convertToHijri(){
     document.getElementById("hYear").value =
     hYear;
 
+    // عرض النتيجة
     document.getElementById("resultText").innerHTML =
 
     `
@@ -482,16 +507,18 @@ function convertToHijri(){
     `;
 }
 
+/* تحويل هجري إلى ميلادي */
+
 function convertToGregorian(){
 
-    const day =
-    document.getElementById("hDay").value;
+    let day =
+    document.getElementById("hDay").value.trim();
 
-    const month =
-    document.getElementById("hMonth").value;
+    let month =
+    document.getElementById("hMonth").value.trim();
 
-    const year =
-    document.getElementById("hYear").value;
+    let year =
+    document.getElementById("hYear").value.trim();
 
     if(!day || !month || !year){
 
@@ -502,9 +529,21 @@ function convertToGregorian(){
         return;
     }
 
+    // إضافة صفر تلقائي
+    day =
+    day.padStart(2,'0');
+
+    month =
+    month.padStart(2,'0');
+
+    // إنشاء التاريخ
+    const hijriDate =
+    `${year}-${month}-${day}`;
+
+    // التحويل
     const gDate =
     moment(
-    `${year}-${month}-${day}`,
+    hijriDate,
     "iYYYY-iMM-iDD",
     true
     );
@@ -527,6 +566,7 @@ function convertToGregorian(){
     const gYear =
     gDate.format("YYYY");
 
+    // تعبئة الحقول
     document.getElementById("gDay").value =
     gDay;
 
@@ -536,6 +576,7 @@ function convertToGregorian(){
     document.getElementById("gYear").value =
     gYear;
 
+    // عرض النتيجة
     document.getElementById("resultText").innerHTML =
 
     `
@@ -552,4 +593,5 @@ function convertToGregorian(){
 </script>
 
 </body>
+
 </html>
