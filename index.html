@@ -4,94 +4,87 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>محول التاريخ الاحترافي</title>
+<title>محول التاريخ</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-    box-sizing: border-box;
-    font-family: 'Cairo', sans-serif;
-}
-
 body {
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #0f2027, #2c5364);
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
 }
 
+/* الحاوية */
 .container {
     width: 90%;
     max-width: 400px;
     padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    text-align: center;
-    animation: fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-h1 {
-    color: #fff;
-    margin-bottom: 20px;
-    font-weight: 900;
-}
-
-input, select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
-    margin-bottom: 12px;
-    font-size: 16px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
     color: white;
-    transition: 0.3s;
+    text-align: center;
 }
 
-button:hover {
-    transform: scale(1.05);
+/* العنوان */
+h1 {
+    margin-bottom: 20px;
 }
 
-.result {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    display: none;
-    font-size: 18px;
-    animation: fadeIn 0.5s ease;
+/* المدخلات */
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
 }
 
-.toggle {
-    margin-bottom: 10px;
+/* الزر */
+button {
+    background: #ffffff;
+    color: #2a5298;
     cursor: pointer;
-    color: #ccc;
-    font-size: 14px;
+    font-weight: bold;
 }
 
-.toggle:hover {
-    color: #fff;
+/* النتيجة */
+.result {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.2);
+    display: none;
+}
+
+/* اتجاه التحويل */
+.direction {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #ddd;
+}
+
+/* التوقيع */
+.signature {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+}
+
+.signature .username {
+    display: block;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
 }
 </style>
 </head>
@@ -99,75 +92,89 @@ button:hover {
 <body>
 
 <div class="container">
-    <h1>📅 محول التاريخ</h1>
+    <h1>محول التاريخ</h1>
 
-    <input type="text" id="dateText" placeholder="مثال: 1-9-1445">
+    <!-- اختيار التاريخ -->
+    <input type="date" id="datePicker">
 
-    <div class="toggle" onclick="toggleMode()">🔄 تبديل التحويل</div>
+    <!-- توضيح الاتجاه -->
+    <div class="direction" id="directionText">
+        التحويل: هجري → ميلادي
+    </div>
 
-    <select id="mode">
-        <option value="HtoG">هجري ➜ ميلادي</option>
-        <option value="GtoH">ميلادي ➜ هجري</option>
+    <!-- اختيار نوع التحويل -->
+    <select id="mode" onchange="updateDirection()">
+        <option value="HtoG">هجري إلى ميلادي</option>
+        <option value="GtoH">ميلادي إلى هجري</option>
     </select>
 
-    <button onclick="convertNow()">تحويل الآن 🚀</button>
+    <button onclick="convertNow()">تحويل</button>
 
     <div class="result" id="resultBox">
         <span id="resultText"></span>
     </div>
 </div>
 
+<!-- التوقيع -->
+<div class="signature">
+    إعداد: حسين بن سعيد
+    <span class="username">@s7s_tec</span>
+</div>
+
 <script>
-function toggleMode() {
-    const select = document.getElementById('mode');
-    select.value = select.value === "HtoG" ? "GtoH" : "HtoG";
+function updateDirection() {
+    const mode = document.getElementById('mode').value;
+    const text = document.getElementById('directionText');
+
+    if (mode === "HtoG") {
+        text.innerText = "التحويل: هجري → ميلادي";
+    } else {
+        text.innerText = "التحويل: ميلادي → هجري";
+    }
 }
 
 async function convertNow() {
-    const input = document.getElementById('dateText').value.trim();
+    const dateValue = document.getElementById('datePicker').value;
     const mode = document.getElementById('mode').value;
     const resBox = document.getElementById('resultBox');
     const resText = document.getElementById('resultText');
 
-    if (!input.includes('-')) {
-        alert("⚠️ اكتب التاريخ: يوم-شهر-سنة");
+    if (!dateValue) {
+        alert("اختر التاريخ أولاً");
         return;
     }
 
-    let [day, month, year] = input.split('-').map(Number);
-
-    if (!day || !month || !year) {
-        alert("⚠️ تاريخ غير صحيح");
-        return;
-    }
+    const [year, month, day] = dateValue.split('-');
 
     let url = mode === "GtoH"
         ? `https://api.aladhan.com/v1/gToH?date=${day}-${month}-${year}`
         : `https://api.aladhan.com/v1/hToG?date=${day}-${month}-${year}`;
 
     try {
-        resText.innerText = "⏳ جاري التحويل...";
+        resText.innerText = "جاري التحويل...";
         resBox.style.display = "block";
 
         const res = await fetch(url);
         const data = await res.json();
 
-        if (data.code !== 200) throw new Error();
+        if (!data || data.code !== 200) {
+            throw new Error();
+        }
 
         let output = "";
 
         if (mode === "GtoH") {
             const h = data.data.hijri;
-            output = `📿 ${h.day} ${h.month.ar} ${h.year} هـ`;
+            output = `${h.day} ${h.month.ar} ${h.year} هـ`;
         } else {
             const g = data.data.gregorian;
-            output = `📅 ${g.day} ${g.month.en} ${g.year} م`;
+            output = `${g.day} ${g.month.en} ${g.year} م`;
         }
 
-        resText.innerText = "✅ " + output;
+        resText.innerText = output;
 
-    } catch {
-        resText.innerText = "❌ فشل التحويل";
+    } catch (e) {
+        resText.innerText = "فشل التحويل، تحقق من التاريخ أو الاتصال";
     }
 }
 </script>
