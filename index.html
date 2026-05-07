@@ -2,110 +2,318 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>محول التاريخ الهجري والميلادي</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<title>
+محول التاريخ الهجري والميلادي
+</title>
 
-<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.js"></script>
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+      rel="stylesheet">
 
 <style>
 
-body{
+/* الأساسيات */
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
     font-family:'Cairo',sans-serif;
-    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+}
+
+body{
+
+    background:
+    linear-gradient(
+    135deg,
+    #0f172a,
+    #1e293b,
+    #334155);
+
     min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
     padding:20px;
+
+    color:white;
 }
 
 .container{
+
     width:100%;
-    max-width:900px;
-    background:rgba(255,255,255,0.08);
+
+    max-width:950px;
+
+    background:
+    rgba(255,255,255,0.08);
+
     backdrop-filter:blur(16px);
-    border-radius:22px;
-    padding:25px;
-    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+
+    border-radius:28px;
+
+    padding:35px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.45);
 }
 
-h1{
+.title{
+
     text-align:center;
-    margin-bottom:20px;
-    font-size:26px;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    margin-bottom:35px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+.row{
+
+    display:flex;
+
+    gap:25px;
+
+    flex-wrap:wrap;
 }
 
 .box{
-    background:rgba(255,255,255,0.06);
-    padding:15px;
-    border-radius:15px;
+
+    flex:1;
+
+    min-width:300px;
 }
 
 label{
+
     display:block;
-    margin-bottom:10px;
+
+    margin-bottom:14px;
+
+    font-size:20px;
+
     font-weight:700;
 }
 
-.inputs{
+.date-inputs{
+
     display:flex;
-    gap:8px;
+
+    gap:10px;
 }
 
-input{
+.date-inputs input{
+
+    flex:1;
+
     width:100%;
-    padding:10px;
-    border-radius:10px;
+
+    padding:16px;
+
     border:none;
-    text-align:center;
-    font-size:16px;
+
+    border-radius:16px;
+
     outline:none;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    background:white;
+
+    color:#111;
+}
+
+.date-inputs input::placeholder{
+
+    color:#777;
 }
 
 .buttons{
+
+    margin-top:30px;
+
     display:flex;
-    gap:10px;
-    margin-top:15px;
+
+    gap:15px;
+
     flex-wrap:wrap;
 }
 
 button{
+
     flex:1;
-    padding:12px;
+
+    padding:16px;
+
     border:none;
-    border-radius:12px;
+
+    border-radius:16px;
+
+    font-size:19px;
+
     font-weight:700;
+
     cursor:pointer;
+
+    transition:0.3s;
 }
 
-.hijri{background:#22c55e;color:white;}
-.greg{background:#3b82f6;color:white;}
+.btn1{
+
+    background:#22c55e;
+
+    color:white;
+}
+
+.btn2{
+
+    background:#3b82f6;
+
+    color:white;
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    opacity:0.92;
+}
 
 .result{
-    margin-top:15px;
-    padding:15px;
-    background:rgba(255,255,255,0.08);
-    border-radius:15px;
+
+    margin-top:30px;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    border-radius:22px;
+
+    padding:28px;
+
     text-align:center;
-    font-size:18px;
-    line-height:2;
 }
 
+.result h2{
+
+    margin-bottom:18px;
+
+    font-size:26px;
+}
+
+.result p{
+
+    font-size:24px;
+
+    line-height:2;
+
+    font-weight:700;
+}
+
+/* 🔥 التوقيع الاحترافي */
+.footer{
+
+    margin-top:30px;
+    text-align:center;
+}
+
+.signature{
+
+    display:inline-block;
+    padding:12px 22px;
+    border-radius:16px;
+
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    animation:fadeIn 1.2s ease;
+}
+
+.signature .name{
+
+    font-size:15px;
+    line-height:1.8;
+    opacity:0.9;
+}
+
+.signature .name span{
+
+    display:block;
+    font-size:18px;
+    font-weight:700;
+    color:#38bdf8;
+    letter-spacing:1px;
+}
+
+.signature .tag{
+
+    margin-top:6px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:2px;
+    color:#94a3b8;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* الجوال */
 @media(max-width:768px){
-    .grid{grid-template-columns:1fr;}
+
+    .container{
+        padding:22px;
+    }
+
+    .title{
+        font-size:28px;
+    }
+
+    .row{
+        flex-direction:column;
+    }
+
+    .box{
+        min-width:100%;
+    }
+
+    .date-inputs input{
+        padding:14px;
+        font-size:16px;
+    }
+
+    button{
+        font-size:17px;
+    }
+
+    .result p{
+        font-size:19px;
+    }
+
 }
 
 </style>
@@ -116,112 +324,161 @@ button{
 
 <div class="container">
 
-<h1>محول التاريخ الهجري والميلادي</h1>
+    <div class="title">
+        محول التاريخ الهجري والميلادي
+    </div>
 
-<div class="grid">
+    <div class="row">
 
-<!-- ميلادي -->
-<div class="box">
-<label>التاريخ الميلادي</label>
-<div class="inputs">
-<input id="gDay" placeholder="يوم">
-<input id="gMonth" placeholder="شهر">
-<input id="gYear" placeholder="سنة">
+        <!-- الميلادي -->
+        <div class="box">
+
+            <label>التاريخ الميلادي</label>
+
+            <div class="date-inputs">
+
+                <input type="number" id="gDay" placeholder="اليوم" min="1" max="31">
+                <input type="number" id="gMonth" placeholder="الشهر" min="1" max="12">
+                <input type="number" id="gYear" placeholder="السنة">
+
+            </div>
+
+        </div>
+
+        <!-- الهجري -->
+        <div class="box">
+
+            <label>التاريخ الهجري</label>
+
+            <div class="date-inputs">
+
+                <input type="number" id="hDay" placeholder="اليوم" min="1" max="30">
+                <input type="number" id="hMonth" placeholder="الشهر" min="1" max="12">
+                <input type="number" id="hYear" placeholder="السنة">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+        <button class="btn1" onclick="convertToHijri()">
+            تحويل إلى هجري
+        </button>
+
+        <button class="btn2" onclick="convertToGregorian()">
+            تحويل إلى ميلادي
+        </button>
+
+    </div>
+
+    <div class="result">
+
+        <h2>النتيجة</h2>
+
+        <p id="resultText">
+            اختر التاريخ ثم اضغط تحويل
+        </p>
+
+    </div>
+
+    <!-- التوقيع الاحترافي -->
+    <div class="footer">
+
+        <div class="signature">
+
+            <div class="name">
+                إعداد التقني<br>
+                <span>حسين بن سعيد</span>
+            </div>
+
+            <div class="tag">
+                s7s_tec
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
-</div>
 
-<!-- هجري -->
-<div class="box">
-<label>التاريخ الهجري</label>
-<div class="inputs">
-<input id="hDay" placeholder="يوم">
-<input id="hMonth" placeholder="شهر">
-<input id="hYear" placeholder="سنة">
-</div>
-</div>
-
-</div>
-
-<div class="buttons">
-
-<button class="hijri" onclick="toHijri()">تحويل إلى هجري</button>
-<button class="greg" onclick="toGregorian()">تحويل إلى ميلادي</button>
-
-</div>
-
-<div class="result" id="result">
-أدخل التاريخ ثم اضغط تحويل
-</div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.js"></script>
 
 <script>
 
+/* تنسيق التاريخ */
+function formatDate(day,month,year){
+    day = String(day).padStart(2,'0');
+    month = String(month).padStart(2,'0');
+    return `${day}-${month}-${year}`;
+}
+
 /* ميلادي → هجري */
-function toHijri(){
+function convertToHijri(){
 
-let d=document.getElementById("gDay").value;
-let m=document.getElementById("gMonth").value;
-let y=document.getElementById("gYear").value;
+    let day = document.getElementById("gDay").value;
+    let month = document.getElementById("gMonth").value;
+    let year = document.getElementById("gYear").value;
 
-if(!d || !m || !y){
-alert("أدخل التاريخ الميلادي كاملاً");
-return;
+    if(!day || !month || !year){
+        alert("أدخل التاريخ الميلادي كاملاً");
+        return;
+    }
+
+    let gDate = moment(`${year}-${month}-${day}`,"YYYY-MM-DD");
+
+    let hDay = gDate.format("iDD");
+    let hMonth = gDate.format("iMM");
+    let hYear = gDate.format("iYYYY");
+
+    document.getElementById("hDay").value = hDay;
+    document.getElementById("hMonth").value = hMonth;
+    document.getElementById("hYear").value = hYear;
+
+    document.getElementById("resultText").innerHTML =
+    `
+    الميلادي: ${formatDate(day,month,year)}
+    <br><br>
+    الهجري: ${formatDate(hDay,hMonth,hYear)}
+    `;
 }
 
-let date = moment(`${y}-${m}-${d}`,"YYYY-MM-DD");
+/* هجري → ميلادي */
+function convertToGregorian(){
 
-let hDay = date.format("iDD");
-let hMonth = date.format("iMM");
-let hYear = date.format("iYYYY");
+    let day = document.getElementById("hDay").value;
+    let month = document.getElementById("hMonth").value;
+    let year = document.getElementById("hYear").value;
 
-/* تعبئة الهجري (اليسار) */
-document.getElementById("hDay").value = hDay;
-document.getElementById("hMonth").value = hMonth;
-document.getElementById("hYear").value = hYear;
+    if(!day || !month || !year){
+        alert("أدخل التاريخ الهجري كاملاً");
+        return;
+    }
 
-/* عرض النتيجة */
-document.getElementById("result").innerHTML =
-`
-الميلادي: ${d}-${m}-${y}
-<br><br>
-الهجري: ${hDay}-${hMonth}-${hYear}
-`;
-}
+    let hDate = moment(`${year}-${month}-${day}`,"iYYYY-iMM-iDD");
 
-/* هجري → ميلادي (الإصلاح الأساسي هنا) */
-function toGregorian(){
+    let gDay = hDate.format("DD");
+    let gMonth = hDate.format("MM");
+    let gYear = hDate.format("YYYY");
 
-let d=document.getElementById("hDay").value;
-let m=document.getElementById("hMonth").value;
-let y=document.getElementById("hYear").value;
+    /* ✔️ إصلاح التعبئة */
+    document.getElementById("gDay").value = gDay;
+    document.getElementById("gMonth").value = gMonth;
+    document.getElementById("gYear").value = gYear;
 
-if(!d || !m || !y){
-alert("أدخل التاريخ الهجري كاملاً");
-return;
-}
-
-let date = moment(`${y}-${m}-${d}`,"iYYYY-iMM-iDD");
-
-let gDay = date.format("DD");
-let gMonth = date.format("MM");
-let gYear = date.format("YYYY");
-
-/* ⭐ هذا هو الإصلاح الذي طلبته */
-document.getElementById("gDay").value = gDay;
-document.getElementById("gMonth").value = gMonth;
-document.getElementById("gYear").value = gYear;
-
-/* عرض النتيجة */
-document.getElementById("result").innerHTML =
-`
-الهجري: ${d}-${m}-${y}
-<br><br>
-الميلادي: ${gDay}-${gMonth}-${gYear}
-`;
+    document.getElementById("resultText").innerHTML =
+    `
+    الهجري: ${formatDate(day,month,year)}
+    <br><br>
+    الميلادي: ${formatDate(gDay,gMonth,gYear)}
+    `;
 }
 
 </script>
 
 </body>
+
 </html>
