@@ -1,597 +1,112 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>
-محول التاريخ الهجري والميلادي
-</title>
-
-<link rel="preconnect"
-      href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
-      rel="stylesheet">
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Cairo',sans-serif;
-}
-
-body{
-
-    background:
-    linear-gradient(
-    135deg,
-    #0f172a,
-    #1e293b,
-    #334155);
-
-    min-height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:20px;
-
-    color:white;
-}
-
-.container{
-
-    width:100%;
-
-    max-width:950px;
-
-    background:
-    rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(16px);
-
-    border-radius:28px;
-
-    padding:35px;
-
-    box-shadow:
-    0 15px 40px rgba(0,0,0,0.45);
-}
-
-.title{
-
-    text-align:center;
-
-    font-size:34px;
-
-    font-weight:700;
-
-    margin-bottom:35px;
-}
-
-.row{
-
-    display:flex;
-
-    gap:25px;
-
-    flex-wrap:wrap;
-}
-
-.box{
-
-    flex:1;
-
-    min-width:300px;
-}
-
-label{
-
-    display:block;
-
-    margin-bottom:14px;
-
-    font-size:20px;
-
-    font-weight:700;
-}
-
-.date-inputs{
-
-    display:flex;
-
-    gap:10px;
-}
-
-.date-inputs input{
-
-    flex:1;
-
-    width:100%;
-
-    padding:16px;
-
-    border:none;
-
-    border-radius:16px;
-
-    outline:none;
-
-    text-align:center;
-
-    font-size:18px;
-
-    font-weight:600;
-
-    background:white;
-
-    color:#111;
-}
-
-.date-inputs input::placeholder{
-
-    color:#777;
-}
-
-.buttons{
-
-    margin-top:30px;
-
-    display:flex;
-
-    gap:15px;
-
-    flex-wrap:wrap;
-}
-
-button{
-
-    flex:1;
-
-    padding:16px;
-
-    border:none;
-
-    border-radius:16px;
-
-    font-size:19px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:0.3s;
-}
-
-.btn1{
-
-    background:#22c55e;
-
-    color:white;
-}
-
-.btn2{
-
-    background:#3b82f6;
-
-    color:white;
-}
-
-button:hover{
-
-    transform:translateY(-3px);
-
-    opacity:0.92;
-}
-
-.result{
-
-    margin-top:30px;
-
-    background:
-    rgba(255,255,255,0.08);
-
-    border-radius:22px;
-
-    padding:28px;
-
-    text-align:center;
-}
-
-.result h2{
-
-    margin-bottom:18px;
-
-    font-size:26px;
-}
-
-.result p{
-
-    font-size:24px;
-
-    line-height:2;
-
-    font-weight:700;
-}
-
-.footer{
-
-    margin-top:28px;
-
-    text-align:center;
-
-    font-size:16px;
-
-    opacity:0.85;
-}
-
-/* الجوال */
-
-@media(max-width:768px){
-
-    .container{
-
-        padding:22px;
-    }
-
-    .title{
-
-        font-size:28px;
-    }
-
-    .row{
-
-        flex-direction:column;
-    }
-
-    .box{
-
-        min-width:100%;
-    }
-
-    .date-inputs input{
-
-        padding:14px;
-
-        font-size:16px;
-    }
-
-    button{
-
-        font-size:17px;
-    }
-
-    .result p{
-
-        font-size:19px;
-    }
-
-}
-
-/* التابلت */
-
-@media(min-width:769px) and (max-width:1024px){
-
-    .container{
-
-        max-width:90%;
-    }
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="title">
-        محول التاريخ الهجري والميلادي
-    </div>
-
-    <div class="row">
-
-        <!-- الميلادي -->
-
-        <div class="box">
-
-            <label>
-                التاريخ الميلادي
-            </label>
-
-            <div class="date-inputs">
-
-                <input type="number"
-                       id="gDay"
-                       placeholder="اليوم"
-                       min="1"
-                       max="31">
-
-                <input type="number"
-                       id="gMonth"
-                       placeholder="الشهر"
-                       min="1"
-                       max="12">
-
-                <input type="number"
-                       id="gYear"
-                       placeholder="السنة">
-
-            </div>
-
-        </div>
-
-        <!-- الهجري -->
-
-        <div class="box">
-
-            <label>
-                التاريخ الهجري
-            </label>
-
-            <div class="date-inputs">
-
-                <input type="number"
-                       id="hDay"
-                       placeholder="اليوم"
-                       min="1"
-                       max="30">
-
-                <input type="number"
-                       id="hMonth"
-                       placeholder="الشهر"
-                       min="1"
-                       max="12">
-
-                <input type="number"
-                       id="hYear"
-                       placeholder="السنة">
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="buttons">
-
-        <button class="btn1"
-                onclick="convertToHijri()">
-
-            تحويل إلى هجري
-
-        </button>
-
-        <button class="btn2"
-                onclick="convertToGregorian()">
-
-            تحويل إلى ميلادي
-
-        </button>
-
-    </div>
-
-    <div class="result">
-
-        <h2>
-            النتيجة
-        </h2>
-
-        <p id="resultText">
-
-            اختر التاريخ ثم اضغط تحويل
-
-        </p>
-
-    </div>
-
-    <div class="footer">
-
-        إعداد التقني حسين بن سعيد |
-        s7s_tec
-
-    </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.js"></script>
-
 <script>
 
-function formatDate(day,month,year){
-
-    day =
-    String(day).padStart(2,'0');
-
-    month =
-    String(month).padStart(2,'0');
-
+function formatDate(day, month, year) {
+    day = String(day).padStart(2, '0');
+    month = String(month).padStart(2, '0');
     return `${day}-${month}-${year}`;
 }
 
-/* تحويل ميلادي إلى هجري */
+/* تحقق من صحة الإدخال */
+function validate(day, month, year, type) {
 
-function convertToHijri(){
+    day = parseInt(day);
+    month = parseInt(month);
+    year = parseInt(year);
 
-    let day =
-    document.getElementById("gDay").value.trim();
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        alert("أدخل تاريخ صحيح");
+        return false;
+    }
 
-    let month =
-    document.getElementById("gMonth").value.trim();
+    if (month < 1 || month > 12) {
+        alert("الشهر غير صحيح");
+        return false;
+    }
 
-    let year =
-    document.getElementById("gYear").value.trim();
+    if (day < 1 || day > 31) {
+        alert("اليوم غير صحيح");
+        return false;
+    }
 
-    if(!day || !month || !year){
+    if (year < 1) {
+        alert("السنة غير صحيحة");
+        return false;
+    }
 
-        alert(
-        "أدخل التاريخ الميلادي كاملاً"
-        );
+    return true;
+}
 
+/* ميلادي → هجري */
+function convertToHijri() {
+
+    let day = document.getElementById("gDay").value.trim();
+    let month = document.getElementById("gMonth").value.trim();
+    let year = document.getElementById("gYear").value.trim();
+
+    if (!validate(day, month, year, "gregorian")) return;
+
+    day = String(day).padStart(2, '0');
+    month = String(month).padStart(2, '0');
+
+    const gregorianDate = `${year}-${month}-${day}`;
+
+    const gDate = moment(gregorianDate, "YYYY-MM-DD", true);
+
+    if (!gDate.isValid()) {
+        alert("التاريخ الميلادي غير صحيح");
         return;
     }
 
-    // إضافة صفر تلقائي
-    day =
-    day.padStart(2,'0');
+    const hDay = gDate.format("iDD");
+    const hMonth = gDate.format("iMM");
+    const hYear = gDate.format("iYYYY");
 
-    month =
-    month.padStart(2,'0');
+    document.getElementById("hDay").value = hDay;
+    document.getElementById("hMonth").value = hMonth;
+    document.getElementById("hYear").value = hYear;
 
-    // إنشاء التاريخ
-    const gregorianDate =
-    `${year}-${month}-${day}`;
-
-    // التحقق من صحة التاريخ
-    const gDate =
-    moment(
-    gregorianDate,
-    "YYYY-MM-DD",
-    true
-    );
-
-    if(!gDate.isValid()){
-
-        alert(
-        "التاريخ الميلادي غير صحيح"
-        );
-
-        return;
-    }
-
-    // التحويل للهجري
-    const hDay =
-    gDate.format("iDD");
-
-    const hMonth =
-    gDate.format("iMM");
-
-    const hYear =
-    gDate.format("iYYYY");
-
-    // تعبئة الحقول
-    document.getElementById("hDay").value =
-    hDay;
-
-    document.getElementById("hMonth").value =
-    hMonth;
-
-    document.getElementById("hYear").value =
-    hYear;
-
-    // عرض النتيجة
-    document.getElementById("resultText").innerHTML =
-
-    `
-    الميلادي:
-    ${formatDate(day,month,year)}
-
-    <br><br>
-
-    الهجري:
-    ${formatDate(hDay,hMonth,hYear)}
+    document.getElementById("resultText").innerHTML = `
+        الميلادي: ${formatDate(day, month, year)}
+        <br><br>
+        الهجري: ${formatDate(hDay, hMonth, hYear)}
     `;
 }
 
-/* تحويل هجري إلى ميلادي */
+/* هجري → ميلادي (الإصلاح المهم هنا) */
+function convertToGregorian() {
 
-function convertToGregorian(){
+    let day = document.getElementById("hDay").value.trim();
+    let month = document.getElementById("hMonth").value.trim();
+    let year = document.getElementById("hYear").value.trim();
 
-    let day =
-    document.getElementById("hDay").value.trim();
+    if (!validate(day, month, year, "hijri")) return;
 
-    let month =
-    document.getElementById("hMonth").value.trim();
+    day = String(day).padStart(2, '0');
+    month = String(month).padStart(2, '0');
 
-    let year =
-    document.getElementById("hYear").value.trim();
+    const hijriDate = `${year}-${month}-${day}`;
 
-    if(!day || !month || !year){
+    // ✅ الإصلاح الحقيقي هنا
+    const gDate = moment(hijriDate, "iYYYY-iMM-iDD").locale('en');
 
-        alert(
-        "أدخل التاريخ الهجري كاملاً"
-        );
-
+    if (!gDate.isValid()) {
+        alert("التاريخ الهجري غير صحيح");
         return;
     }
 
-    // إضافة صفر تلقائي
-    day =
-    day.padStart(2,'0');
+    const gDay = gDate.format("DD");
+    const gMonth = gDate.format("MM");
+    const gYear = gDate.format("YYYY");
 
-    month =
-    month.padStart(2,'0');
+    document.getElementById("gDay").value = gDay;
+    document.getElementById("gMonth").value = gMonth;
+    document.getElementById("gYear").value = gYear;
 
-    // إنشاء التاريخ
-    const hijriDate =
-    `${year}-${month}-${day}`;
-
-    // التحويل
-    const gDate =
-    moment(
-    hijriDate,
-    "iYYYY-iMM-iDD",
-    true
-    );
-
-    if(!gDate.isValid()){
-
-        alert(
-        "التاريخ الهجري غير صحيح"
-        );
-
-        return;
-    }
-
-    const gDay =
-    gDate.format("DD");
-
-    const gMonth =
-    gDate.format("MM");
-
-    const gYear =
-    gDate.format("YYYY");
-
-    // تعبئة الحقول
-    document.getElementById("gDay").value =
-    gDay;
-
-    document.getElementById("gMonth").value =
-    gMonth;
-
-    document.getElementById("gYear").value =
-    gYear;
-
-    // عرض النتيجة
-    document.getElementById("resultText").innerHTML =
-
-    `
-    الهجري:
-    ${formatDate(day,month,year)}
-
-    <br><br>
-
-    الميلادي:
-    ${formatDate(gDay,gMonth,gYear)}
+    document.getElementById("resultText").innerHTML = `
+        الهجري: ${formatDate(day, month, year)}
+        <br><br>
+        الميلادي: ${formatDate(gDay, gMonth, gYear)}
     `;
 }
 
 </script>
-
-</body>
-
-</html>
