@@ -5,122 +5,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>محول التاريخ الهجري والميلادي</title>
+<title>محول التاريخ - أم القرى</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
 
 <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.js"></script>
 
 <style>
 
+:root{
+--bg:#0f172a;
+--card:rgba(255,255,255,0.08);
+--text:white;
+--btn:#22c55e;
+}
+
+.light{
+--bg:#f1f5f9;
+--card:white;
+--text:#111;
+--btn:#16a34a;
+}
+
 body{
-    margin:0;
-    font-family:'Cairo',sans-serif;
-    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
+margin:0;
+font-family:'Cairo';
+background:var(--bg);
+color:var(--text);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+transition:0.3s;
 }
 
 .app{
-    width:100%;
-    max-width:900px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(18px);
-    border-radius:25px;
-    padding:30px;
-    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+width:100%;
+max-width:900px;
+background:var(--card);
+backdrop-filter:blur(16px);
+border-radius:20px;
+padding:25px;
 }
 
 h1{
-    text-align:center;
-    font-size:28px;
-    margin-bottom:25px;
+text-align:center;
+margin-bottom:15px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-}
-
-.box{
-    background:rgba(255,255,255,0.06);
-    padding:20px;
-    border-radius:18px;
-}
-
-label{
-    font-weight:700;
-    display:block;
-    margin-bottom:10px;
-}
-
-.inputs{
-    display:flex;
-    gap:8px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    border-radius:12px;
-    border:none;
-    text-align:center;
-    font-size:16px;
-    outline:none;
-}
-
-.buttons{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
 }
 
 button{
-    flex:1;
-    padding:14px;
-    border:none;
-    border-radius:14px;
-    font-weight:700;
-    cursor:pointer;
-    transition:0.2s;
+padding:10px;
+border:none;
+border-radius:10px;
+cursor:pointer;
 }
 
-button:hover{
-    transform:scale(1.03);
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
 }
 
-.convert1{background:#22c55e;color:white;}
-.convert2{background:#3b82f6;color:white;}
-.copy{background:#f59e0b;color:white;}
+.box{
+padding:15px;
+background:rgba(255,255,255,0.06);
+border-radius:15px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:10px;
+border:none;
+text-align:center;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:15px;
+flex-wrap:wrap;
+}
+
+.actions button{
+flex:1;
+}
+
+.primary{background:#22c55e;color:white;}
+.blue{background:#3b82f6;color:white;}
+.darkbtn{background:#111;color:white;}
 
 .result{
-    margin-top:20px;
-    padding:20px;
-    background:rgba(255,255,255,0.07);
-    border-radius:18px;
-    text-align:center;
-}
-
-.result p{
-    font-size:18px;
-    line-height:2;
-}
-
-.footer{
-    text-align:center;
-    margin-top:15px;
-    font-size:13px;
-    opacity:0.7;
-}
-
-@media(max-width:768px){
-    .grid{grid-template-columns:1fr;}
+margin-top:15px;
+padding:15px;
+background:rgba(255,255,255,0.08);
+border-radius:15px;
 }
 
 </style>
@@ -130,104 +121,105 @@ button:hover{
 
 <div class="app">
 
-<h1>محول التاريخ الهجري والميلادي</h1>
+<div class="topbar">
+<h3>محول التاريخ (أم القرى)</h3>
+<button onclick="toggleTheme()">🌙/☀️</button>
+</div>
 
 <div class="grid">
 
-<!-- ميلادي -->
 <div class="box">
-<label>التاريخ الميلادي</label>
-<div class="inputs">
+<h4>ميلادي</h4>
 <input id="gDay" placeholder="يوم">
 <input id="gMonth" placeholder="شهر">
 <input id="gYear" placeholder="سنة">
 </div>
-</div>
 
-<!-- هجري -->
 <div class="box">
-<label>التاريخ الهجري</label>
-<div class="inputs">
+<h4>هجري</h4>
 <input id="hDay" placeholder="يوم">
 <input id="hMonth" placeholder="شهر">
 <input id="hYear" placeholder="سنة">
 </div>
-</div>
 
 </div>
 
-<div class="buttons">
-<button class="convert1" onclick="toHijri()">تحويل إلى هجري</button>
-<button class="convert2" onclick="toGregorian()">تحويل إلى ميلادي</button>
-<button class="copy" onclick="copyResult()">نسخ النتيجة</button>
+<div class="actions">
+
+<button class="primary" onclick="toHijri()">تحويل هجري</button>
+<button class="blue" onclick="toGregorian()">تحويل ميلادي</button>
+<button class="darkbtn" onclick="shareX()">X</button>
+<button class="darkbtn" onclick="shareWhats()">WhatsApp</button>
+
 </div>
 
-<div class="result">
-<p id="result">أدخل التاريخ ثم اختر التحويل</p>
-</div>
-
-<div class="footer">
-إعداد التقني حسين بن سعيد | s7s_tec
+<div class="result" id="result">
+النتيجة ستظهر هنا
 </div>
 
 </div>
 
 <script>
 
-function valid(d,m,y){
-    return d && m && y && !isNaN(d) && !isNaN(m) && !isNaN(y);
+// 🌙 وضع داكن/فاتح
+function toggleTheme(){
+document.body.classList.toggle("light");
 }
 
+// 📅 تاريخ اليوم تلقائي
+window.onload = function(){
+let now = new Date();
+document.getElementById("gDay").value = now.getDate();
+document.getElementById("gMonth").value = now.getMonth()+1;
+document.getElementById("gYear").value = now.getFullYear();
+}
+
+// 🔁 ميلادي → هجري (أم القرى عبر moment-hijri)
 function toHijri(){
 
 let d=document.getElementById("gDay").value;
 let m=document.getElementById("gMonth").value;
 let y=document.getElementById("gYear").value;
 
-if(!valid(d,m,y)){alert("أدخل تاريخ صحيح");return;}
-
 let date = moment(`${y}-${m}-${d}`,"YYYY-MM-DD");
 
-let hd=date.format("iDD");
-let hm=date.format("iMM");
-let hy=date.format("iYYYY");
+let h = date.format("iYYYY/iMM/iDD");
 
-document.getElementById("hDay").value=hd;
-document.getElementById("hMonth").value=hm;
-document.getElementById("hYear").value=hy;
+document.getElementById("hDay").value = h.split("/")[2];
+document.getElementById("hMonth").value = h.split("/")[1];
+document.getElementById("hYear").value = h.split("/")[0];
 
-document.getElementById("result").innerHTML=
-`الميلادي: ${d}-${m}-${y}<br>الهجري: ${hd}-${hm}-${hy}`;
-
+document.getElementById("result").innerHTML =
+`الميلادي: ${d}-${m}-${y}<br>الهجري: ${h}`;
 }
 
+// 🔁 هجري → ميلادي
 function toGregorian(){
 
 let d=document.getElementById("hDay").value;
 let m=document.getElementById("hMonth").value;
 let y=document.getElementById("hYear").value;
 
-if(!valid(d,m,y)){alert("أدخل تاريخ صحيح");return;}
-
 let date = moment(`${y}-${m}-${d}`,"iYYYY-iMM-iDD");
 
-let gd=date.format("DD");
-let gm=date.format("MM");
-let gy=date.format("YYYY");
+let g = date.format("YYYY-MM-DD");
 
-document.getElementById("gDay").value=gd;
-document.getElementById("gMonth").value=gm;
-document.getElementById("gYear").value=gy;
-
-document.getElementById("result").innerHTML=
-`الهجري: ${d}-${m}-${y}<br>الميلادي: ${gd}-${gm}-${gy}`;
-
+document.getElementById("result").innerHTML =
+`الهجري: ${d}-${m}-${y}<br>الميلادي: ${g}`;
 }
 
-function copyResult(){
+// 📤 مشاركة X
+function shareX(){
 let text=document.getElementById("result").innerText;
-navigator.clipboard.writeText(text);
-alert("تم النسخ");
+let url="https://twitter.com/intent/tweet?text="+encodeURIComponent(text);
+window.open(url,"_blank");
+}
+
+// 📲 مشاركة WhatsApp
+function shareWhats(){
+let text=document.getElementById("result").innerText;
+let url="https://wa.me/?text="+encodeURIComponent(text);
+window.open(url,"_blank");
 }
 
 </script>
